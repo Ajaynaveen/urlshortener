@@ -36,7 +36,7 @@ const createuser = async (req, res) => {
   
       await newUser.save();
   
-      const activationLink = `${activationToken}`;
+      const activationLink = `https://urlshortener-db6x.onrender.com/activate?token=${activationToken}`;
   
       await sendActivationEmail(email, activationLink);
   
