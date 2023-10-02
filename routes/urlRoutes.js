@@ -4,12 +4,10 @@ const validUrl = require('valid-url');
 const shortid = require('shortid');
 const authmiddleware = require('../middleware/authmiddleware'); // Use your authentication middleware
 
-// Model for storing shortened URLs
+
 const ShortUrl = require('../models/ShortUrl');
 
-// @route POST /api/url/shorten
-// @desc Create short URL
-// @access Private (requires authentication)
+
 router.post('/shorten', authmiddleware.verifytoken, async (req, res) => {
   const { longUrl } = req.body;
 
@@ -25,9 +23,9 @@ router.post('/shorten', authmiddleware.verifytoken, async (req, res) => {
     if (shortUrl) {
       res.json(shortUrl);
     } else {
-      // Generate a unique short code using shortid
+    
       const urlCode = shortid.generate();
-      const base_url =  'http://localhost:3000'; 
+      const base_url =  'https://urlshortener-db6x.onrender.com'; 
 const shortUrl = `${base_url}/${urlCode}`;
 console.log(shortUrl)
 
@@ -113,7 +111,7 @@ router.get('/stats', authmiddleware.verifytoken, async (req, res) => {
 
 router.get('/userinfo', authmiddleware.verifytoken, async (req, res) => {
   try {
-    console.log("hi")
+   
     const userUrls = await ShortUrl.find({ user: req.userId });
     console.log(userUrls)
 
@@ -126,33 +124,33 @@ router.get('/userinfo', authmiddleware.verifytoken, async (req, res) => {
 });
 
 router.get('/:urlCode', async (req, res) => {
-  const { urlCode } = req.params;
-
-  try {
-    console.log('Received urlCode:', urlCode);
-
-   
-    const shortUrl = await ShortUrl.findOne({ urlCode });
-
-    if (shortUrl) {
-      console.log('Found matching shortUrl:', shortUrl);
-
- 
-      shortUrl.clicks++;
-      await shortUrl.save();
-
-    
-      console.log('Redirecting to:', shortUrl.longUrl);
-      return res.redirect(shortUrl.longUrl);
-    } else {
-      console.log('URL not found');
-      return res.status(404).json({ error: 'URL not found' });
+    const { urlCode } = req.params;
+  
+    try {
+      console.log('Received urlCode:', urlCode);
+  
+      // Find the short URL by its code
+      const shortUrl = await ShortUrl.findOne({ urlCode });
+  
+      if (shortUrl) {
+        console.log('Found matching shortUrl:', shortUrl);
+  
+        // Increment the click count
+        shortUrl.clicks++;
+        await shortUrl.save();
+  
+        
+        console.log('Redirecting to:', shortUrl.longUrl);
+        return res.redirect(shortUrl.longUrl);
+      } else {
+        console.log('URL not found');
+        return res.status(404).json({ error: 'URL not found' });
+      }
+    } catch (error) {
+      console.error('Error redirecting to original URL:', error);
+      res.status(500).json({ error: 'Server Error' });
     }
-  } catch (error) {
-    console.error('Error redirecting to original URL:', error);
-    res.status(500).json({ error: 'Server Error' });
-  }
-});
+  });
 
 
 
