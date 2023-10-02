@@ -36,7 +36,7 @@ const createuser = async (req, res) => {
   
       await newUser.save();
   
-      const activationLink = `http://localhost:3003/activate?token=${activationToken}`;
+      const activationLink = `${activationToken}`;
   
       await sendActivationEmail(email, activationLink);
   
