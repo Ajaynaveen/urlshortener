@@ -27,7 +27,7 @@ router.post('/shorten', authmiddleware.verifytoken, async (req, res) => {
     } else {
       // Generate a unique short code using shortid
       const urlCode = shortid.generate();
-      const base_url =  'http://localhost:3002'; 
+      const base_url =  'http://localhost:3003'; 
 const shortUrl = `${base_url}/${urlCode}`;
 console.log(shortUrl)
 

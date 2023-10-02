@@ -1,16 +1,16 @@
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // Use Gmail as the email service
+  service: 'gmail', 
   auth: {
-    user: 'ajay.s.naviee@gmail.com', // Your Gmail email address
-    pass: 'zvxw gwsh thbt htlc', // Your Gmail password
+    user: 'ajay.s.naviee@gmail.com', 
+    pass: 'zvxw gwsh thbt htlc', 
   },
 });
 
 const sendActivationEmail = async (recipientEmail, activationLink) => {
   const mailOptions = {
-    from: 'ajay.s.naviee@gmail.com', // Your Gmail email address
+    from: 'ajay.s.naviee@gmail.com', 
     to: recipientEmail,
     subject: 'Activate Your Account',
     text: `Click the following link to activate your account: ${activationLink}`,
