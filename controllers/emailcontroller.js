@@ -13,7 +13,7 @@ const sendActivationEmail = async (recipientEmail, activationLink) => {
     from: 'ajay.s.naviee@gmail.com', 
     to: recipientEmail,
     subject: 'Activate Your Account',
-    text: `just drag the token and paste in your code: ${activationLink}`,
+    text: `Click the following link to activate your account its enough and after that place the token: ${activationLink}`,
   };
 
   try {

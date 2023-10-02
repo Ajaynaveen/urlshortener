@@ -27,7 +27,7 @@ router.post('/shorten', authmiddleware.verifytoken, async (req, res) => {
     } else {
       // Generate a unique short code using shortid
       const urlCode = shortid.generate();
-      const base_url =  'http://localhost:3003'; 
+      const base_url =  'http://localhost:3000'; 
 const shortUrl = `${base_url}/${urlCode}`;
 console.log(shortUrl)
 
@@ -131,17 +131,17 @@ router.get('/:urlCode', async (req, res) => {
   try {
     console.log('Received urlCode:', urlCode);
 
-    // Find the short URL by its code
+   
     const shortUrl = await ShortUrl.findOne({ urlCode });
 
     if (shortUrl) {
       console.log('Found matching shortUrl:', shortUrl);
 
-      // Increment the click count
+ 
       shortUrl.clicks++;
       await shortUrl.save();
 
-      // Redirect to the original URL
+    
       console.log('Redirecting to:', shortUrl.longUrl);
       return res.redirect(shortUrl.longUrl);
     } else {
